@@ -1,19 +1,10 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
-import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
 export default defineConfig(({ mode }) => ({
   plugins: [
-    react(),
-    runtimeErrorOverlay(),
-    ...(mode !== "production" && process.env.REPL_ID !== undefined
-      ? [
-          await import("@replit/vite-plugin-cartographer").then((m) =>
-            m.cartographer()
-          ),
-        ]
-      : []),
+    react()
   ],
   resolve: {
     alias: {
@@ -33,8 +24,5 @@ export default defineConfig(({ mode }) => ({
       deny: ["**/.*"],
     },
   },
-  // The base path is set conditionally based on the build mode.
-  // "preview" mode uses a relative path for local serving.
-  // "production" mode (for GitHub Pages) uses the repository name.
-  base: mode === "preview" ? "./" : "/vks.consultancy/",
+  base: mode === "preview" ? "./" : process.env.NODE_ENV === "production" ? "/vks.consultancy/" : "/",
 }));
