@@ -34,4 +34,5 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
+  base: "/<REPOSITORY_NAME>/", // <-- ADD THIS LINE
 });
